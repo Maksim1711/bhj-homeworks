@@ -3,7 +3,7 @@ const countdown = () => {
 	timer.textContent--;
 	if (timer.textContent == 0) {
 		alert('Вы победили в конкурсе');
-		clearInterval(end);
+		clearInterval(timerEnd);
 	}
 };
-let end = setInterval(countdown, 1000);
+let timerEnd = setInterval(countdown, 1000);
