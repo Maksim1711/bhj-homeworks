@@ -1,12 +1,26 @@
-const menu__link = document.getElementsByClassName('menu__link');
-const menu__item = document.getElementsByClassName('menu__item');
-
-for (let i = 0; i < menu__link.length; i++) {
-	menu__link.item(i).onclick = () => {
-		for (let j = 0; j < document.querySelectorAll('ul.menu_active').length; j++) {
-			document.querySelectorAll('ul.menu_active').item(j).classList.remove('menu_active');
-		}
-		menu__item.item(i).querySelector('ul').classList.toggle('menu_active');
-		return false;
+const menuLinks = Array.from(document.querySelectorAll('.menu__link'));
+const menuSub = Array.from(document.querySelectorAll('.menu_sub'));
+const closeMenu = () => {
+	for (let j = 0; j < menuSub.length; j++) {
+		menuSub[j].classList.remove('menu_active');
 	};
-}
+};
+
+for (let i = 0; i < menuLinks.length; i++) {
+	const link = menuLinks[i].closest('.menu__item');
+	const sub = link.querySelector('.menu_sub');
+
+	menuLinks[i].onclick = () => {
+		if (sub === null) {
+			return true;
+		};
+		if (sub.classList.contains('menu_active')) {
+			closeMenu();
+			return false;
+		} else if (link && sub != null) {
+			closeMenu();
+			sub.classList.add('menu_active');
+			return false;
+		};
+	};
+};

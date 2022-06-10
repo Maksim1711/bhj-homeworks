@@ -1,48 +1,49 @@
-const slider__dot = document.getElementsByClassName('slider__dot');
-function slider(slide) {
-	const slider__item = document.getElementsByClassName('slider__item');
-	for (let i = 0; i < slider__item.length; i++) {
-		if (slider__item.item(i).classList.contains('slider__item_active')) {
-			slider__item.item(i).classList.remove('slider__item_active');
-		}
-		if (slider__dot.item(i).classList.contains('slider__dot_active')) {
-			slider__dot.item(i).classList.remove('slider__dot_active');
-		}
-	}
-	slider__item.item(slide).classList.add('slider__item_active');
-	slider__dot.item(slide).classList.add('slider__dot_active');
-}
+const sliderItems = Array.from(document.querySelectorAll('.slider__item'));
+const sliderDots = Array.from(document.querySelectorAll('.slider__dot'));
+const sliderDotsButton = document.querySelector('.slider__dots');
+const arrowPrev = document.querySelector('.slider__arrow_prev');
+const arrowNext = document.querySelector('.slider__arrow_next');
 
-for (let i = 0; i < slider__dot.length; i++) {
-	slider__dot.item(i).onclick = () => {
-		slider(i);
-	};
-}
+let slideNumber = 0;
 
-document.getElementsByClassName('slider__arrow_next').item(0).onclick = () => {
-	const slider__item = document.getElementsByClassName('slider__item');
-	for (let i = 0; i < slider__item.length; i++) {
-		if (slider__item.item(i).classList.contains('slider__item_active')) {
-			if (i + 1 == slider__item.length) {
-				slider(0);
-				break;
-			}
-			slider(i + 1);
-			break;
-		}
+showSliders(slideNumber);
+
+function showSliders(n) {
+	if (n >= sliderItems.length) {
+		slideNumber = 0;
+	} else if (n < 0) {
+		slideNumber = sliderItems.length - 1;
 	}
+	let i = sliderItems.findIndex(item => item.classList.contains('slider__item_active'));
+	sliderItems[i].classList.remove('slider__item_active');
+	sliderDots[i].classList.remove('slider__dot_active');
+
+	sliderItems[slideNumber].classList.add('slider__item_active');
+	sliderDots[slideNumber].classList.add('slider__dot_active');
 };
 
-document.getElementsByClassName('slider__arrow_prev').item(0).onclick = () => {
-	const slider__item = document.getElementsByClassName('slider__item');
-	for (let i = 0; i < slider__item.length; i++) {
-		if (slider__item.item(i).classList.contains('slider__item_active')) {
-			if (i - 1 == -1) {
-				slider(slider__item.length - 1);
-				break;
-			}
-			slider(i - 1);
-			break;
-		}
-	}
+function plusSlides(n) {
+	let i = slideNumber += n;
+	showSliders(i);
+};
+
+function itemDot(n) {
+	let i = slideNumber = n;
+	showSliders(i);
+};
+
+arrowNext.onclick = () => {
+	plusSlides(1);
+};
+
+arrowPrev.onclick = () => {
+	plusSlides(-1);
+};
+
+sliderDotsButton.onclick = (n) => {
+	for (let i = 0; i < sliderDots.length; i++) {
+		if (n.target.classList.contains('slider__dot') && n.target === sliderDots[i]) {
+			itemDot(i);
+		};
+	};
 };
