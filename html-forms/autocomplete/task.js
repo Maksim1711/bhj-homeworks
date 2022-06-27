@@ -91,12 +91,7 @@ class Autocomplete {
 				});
 			}
 		});
-		return [
-			{
-				text: 'Чубакка',
-				value: '1'
-			}
-		];
+		return result;
 	}
 }
 
